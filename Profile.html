@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Nishi - Computer Science & AI Student Portfolio">
+    <meta name="author" content="Nishi">
+    <title>Nishi - AI & Computer Science Portfolio</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0284c7;
+            --secondary: #8b5cf6;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --rose: #f43f5e;
+            --dark: #0f172a;
+            --slate: #1e293b;
+            --gray: #334155;
+            --text-light: #64748b;
+            --bg: #fafbfc;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 50%, #f0f9ff 100%);
+            color: var(--gray);
+            line-height: 1.7;
+            min-height: 100vh;
+            padding: 60px 30px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 
+                0 0 0 1px rgba(15, 23, 42, 0.05),
+                0 50px 100px -20px rgba(15, 23, 42, 0.15),
+                0 30px 60px -30px rgba(14, 165, 233, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--dark) 0%, #1e3a5f 100%);
+            padding: 100px 80px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, transparent 70%);
+            top: -400px;
+            right: -200px;
+            animation: pulse 15s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+            bottom: -300px;
+            left: -100px;
+            animation: pulse 20s ease-in-out infinite reverse;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.5; }
+            50% { transform: scale(1.1) translate(30px, -30px); opacity: 0.8; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-label {
+            display: inline-block;
+            background: rgba(14, 165, 233, 0.15);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            color: #7dd3fc;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 32px;
+        }
+
+        .hero-name {
+            font-family: 'Fraunces', serif;
+            font-size: 6.5em;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 24px;
+            letter-spacing: -3px;
+            line-height: 1;
+        }
+
+        .hero-title {
+            font-size: 1.8em;
+            color: #bae6fd;
+            font-weight: 500;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-school {
+            font-size: 1.1em;
+            color: #94a3b8;
+            font-weight: 400;
+            margin-bottom: 48px;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-top: 48px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 24px;
+            border-radius: 16px;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-4px);
+        }
+
+        .stat-icon {
+            font-size: 2em;
+            margin-bottom: 12px;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 0.85em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-value {
+            color: white;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .main-content {
+            padding: 80px;
+        }
+
+        .quote-banner {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 24px;
+            padding: 56px;
+            margin-bottom: 80px;
+            position: relative;
+            box-shadow: 0 20px 50px -20px rgba(245, 158, 11, 0.3);
+        }
+
+        .quote-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--accent), #fb923c);
+            border-radius: 24px 24px 0 0;
+        }
+
+        .quote-icon {
+            font-size: 3em;
+            color: var(--accent);
+            opacity: 0.3;
+            margin-bottom: 20px;
+        }
+
+        .quote-text {
+            font-family: 'Fraunces', serif;
+            font-size: 1.4em;
+            line-height: 1.8;
+            color: #78350f;
+            font-weight: 600;
+        }
+
+        .section {
+            margin-bottom: 100px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            margin-bottom: 56px;
+        }
+
+        .section-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            font-weight: 800;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: 0 10px 30px -10px rgba(14, 165, 233, 0.4);
+        }
+
+        .section-title-group {
+            flex: 1;
+        }
+
+        .section-subtitle {
+            font-size: 0.75em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-family: 'Fraunces', serif;
+            font-size: 3em;
+            font-weight: 700;
+            color: var(--dark);
+            letter-spacing: -2px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            border-radius: 24px;
+            padding: 48px;
+            border: 2px solid transparent;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.4s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px -20px rgba(14, 165, 233, 0.3);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card h3 {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 24px;
+        }
+
+        .feature-card ul {
+            list-style: none;
+        }
+
+        .feature-card li {
+            padding-left: 32px;
+            position: relative;
+            margin-bottom: 16px;
+            color: var(--gray);
+            line-height: 1.8;
+        }
+
+        .feature-card li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 20px;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .project-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 24px;
+            padding: 48px;
+            margin-bottom: 32px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            transform: scaleY(0);
+            transition: transform 0.4s;
+        }
+
+        .project-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 30px 60px -20px rgba(14, 165, 233, 0.25);
+            transform: translateX(12px);
+        }
+
+        .project-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 28px;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .project-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .project-title {
+            font-size: 1.7em;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 12px;
+        }
+
+        .project-org {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .project-tag {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-size: 0.85em;
+            font-weight: 700;
+            white-space: nowrap;
+            box-shadow: 0 8px 20px -8px rgba(14, 165, 233, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .project-description ul {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .project-description li {
+            padding-left: 40px;
+            position: relative;
+            margin-bottom: 16px;
+            color: var(--gray);
+            line-height: 1.8;
+        }
+
+        .project-description li::before {
+            content: '▸';
+            position: absolute;
+            left: 12px;
+            color: var(--primary);
+            font-size: 1.4em;
+            font-weight: 700;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 24px;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, var(--dark), var(--slate));
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.95em;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.5);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px -10px rgba(15, 23, 42, 0.6);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 32px;
+        }
+
+        .skill-box {
+            background: linear-gradient(135deg, #fdf4ff 0%, #fae8ff 100%);
+            border: 2px solid #f0abfc;
+            border-radius: 24px;
+            padding: 40px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .skill-box:hover {
+            border-color: var(--secondary);
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -20px rgba(139, 92, 246, 0.3);
+        }
+
+        .skill-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--secondary), #a78bfa);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6em;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px -8px rgba(139, 92, 246, 0.5);
+        }
+
+        .skill-box h3 {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #581c87;
+            margin-bottom: 16px;
+        }
+
+        .skill-box p {
+            color: #6b21a8;
+            line-height: 1.9;
+            font-weight: 500;
+        }
+
+        .honors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 24px;
+        }
+
+        .honor-badge {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border-left: 6px solid var(--success);
+            padding: 32px;
+            border-radius: 16px;
+            color: #065f46;
+            font-weight: 500;
+            line-height: 1.8;
+            transition: all 0.3s;
+        }
+
+        .honor-badge:hover {
+            transform: translateX(12px);
+            box-shadow: 0 15px 40px -20px rgba(16, 185, 129, 0.4);
+        }
+
+        .training-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .training-card {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            border: 2px solid #fdba74;
+            border-left: 6px solid var(--accent);
+            padding: 28px 36px;
+            border-radius: 16px;
+            color: #7c2d12;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .training-card:hover {
+            border-color: var(--accent);
+            transform: translateX(12px);
+            box-shadow: 0 12px 35px -15px rgba(245, 158, 11, 0.4);
+        }
+
+        .training-card strong {
+            display: block;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            color: #92400e;
+        }
+
+        @media (max-width: 1024px) {
+            .hero {
+                padding: 80px 50px 60px;
+            }
+
+            .hero-name {
+                font-size: 4.5em;
+            }
+
+            .main-content {
+                padding: 60px 50px;
+            }
+
+            .grid-2,
+            .skills-grid,
+            .honors-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 30px 15px;
+            }
+
+            .hero {
+                padding: 60px 35px 50px;
+            }
+
+            .hero-name {
+                font-size: 3em;
+            }
+
+            .hero-title {
+                font-size: 1.3em;
+            }
+
+            .main-content {
+                padding: 50px 35px;
+            }
+
+            .section-number {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5em;
+            }
+
+            .section-title {
+                font-size: 2.2em;
+            }
+
+            .project-card {
+                padding: 32px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <div class="hero-content">
+                <div class="hero-label">Portfolio 2026</div>
+                <h1 class="hero-name">Nishi Chute</h1>
+                <div class="hero-title">Computer Science & Artificial Intelligence</div>
+                <div class="hero-school">Rock Ridge High School / Academies of Loudoun(STEM-focused magnet)</div>
+                
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">📍</div>
+                        <div class="stat-label">Location</div>
+                        <div class="stat-value">Virginia, USA</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎓</div>
+                        <div class="stat-label">Graduation</div>
+                        <div class="stat-value">Class of 2026</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🔬</div>
+                        <div class="stat-label">Focus Area</div>
+                        <div class="stat-value">Computer Science</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">💡</div>
+                        <div class="stat-label">Program</div>
+                        <div class="stat-value">AI Research</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="quote-banner">
+                <div class="quote-icon">💭</div>
+                <div class="quote-text">
+                    "Uncertainty is simply an invitation to discover something new. From walking through the forest behind my house to exploring the unknowns of AI, I've learned to face the unseen with curiosity and courage. My goal is to use computer science not only to solve problems but to illuminate the unknown."
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-number">01</div>
+                    <div class="section-title-group">
+                        <div class="section-subtitle">Foundation</div>
+                        <h2 class="section-title">Academic Excellence</h2>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="feature-card">
+                        <h3>Advanced Coursework</h3>
+                        <ul>
+                            <li>AP Computer Science A</li>
+                            <li>AP Physics C: Mechanics</li>
+                            <li>AP Calculus BC</li>
+                            <li>Multivariable Calculus</li>
+                            <li>AP Biology</li>
+                            <li>Machine Learning Research</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Core Strengths</h3>
+                        <ul>
+                            <li>Logical reasoning & problem solving</li>
+                            <li>Independent research & inquiry</li>
+                            <li>Interdisciplinary AI applications</li>
+                            <li>Mathematical modeling & analysis</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-number">02</div>
+                    <div class="section-title-group">
+                        <div class="section-subtitle">Innovation</div>
+                        <h2 class="section-title">Research Experience</h2>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-info">
+                            <div class="project-title">AI Research Intern</div>
+                            <div class="project-org">MERP Systems</div>
+                        </div>
+                        <div class="project-tag">Summer 2024-2025</div>
+                    </div>
+                    <div class="project-description">
+                        <ul>
+                            <li>Designed CNN-LSTM hybrid model for solar wind speed forecasting using NASA data</li>
+                            <li>Improved multimodal architecture integrating EUV imagery and OMNI data</li>
+                        </ul>
+                        <a href="https://github.com" class="btn-primary" target="_blank" rel="noopener">View Project →</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-info">
+                            <div class="project-title">Independent Researcher</div>
+                            <div class="project-org">Mentored by Columbia PhD Researcher</div>
+                        </div>
+                        <div class="project-tag">2024 – Present</div>
+                    </div>
+                    <div class="project-description">
+                        <ul>
+                            <li>Built Python ML models to classify stars by spectra; analyzed variable importance for accuracy</li>
+                            <li>Mentored by PhD student Kristen Surrao</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-info">
+                            <div class="project-title">AI Automation Intern</div>
+                            <div class="project-org">PupPilot</div>
+                        </div>
+                        <div class="project-tag">2025</div>
+                    </div>
+                    <div class="project-description">
+                        <ul>
+                            <li>Developed AI agents with Python, Browserbase, and Skyvern to automate form processing</li>
+                            <li>Streamlined veterinary data-sharing pipelines</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-number">03</div>
+                    <div class="section-title-group">
+                        <div class="section-subtitle">Community</div>
+                        <h2 class="section-title">Leadership & Impact</h2>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-title"><span class="project-org">AI Club</span> — Founder & Lead Instructor</div>
+                    <div class="project-description">
+                        <ul>
+                            <li>Led weekly ML workshops; designed curriculum on Python, Colab, and TensorFlow</li>
+                            <li>Mentored members in AI project design and competition readiness</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-title"><span class="project-org">Robotics</span> — RoboLoCo FRC Team</div>
+                    <div class="project-description">
+                        <ul>
+                            <li>Programmed robots using Java (PID control), enhanced code reliability, and taught freshmen coding basics</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-title"><span class="project-org">Science Olympiad</span> — Competitor & Mentor</div>
+                    <div class="project-description">
+                        <ul>
+                            <li>Competed in 3 main categories, achieving regional/state recognition; mentored new members in study prep</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-title"><span class="project-org">TSA (Technology Student Association)</span> — Multimedia Producer</div>
+                    <div class="project-description">
+                        <ul>
+                            <li>Produced multimedia STEM podcast and VR visualization projects integrating music and coding</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-title"><span class="project-org">MEDLIFE & Cancer Kids First</span> — Community Volunteer</div>
+                    <div class="project-description">
+                        <ul>
+                            <li>Promoted healthcare and education fundraising; supported pediatric cancer patients through handmade cards and storytime events</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-title"><span class="project-org">FCCLA</span> — Silver Medalist</div>
+                    <div class="project-description">
+                        <ul>
+                            <li>Silver Medalist for STAR Professional Presentation; led community outreach efforts</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-number">04</div>
+                    <div class="section-title-group">
+                        <div class="section-subtitle">Expertise</div>
+                        <h2 class="section-title">Technical Skills</h2>
+                    </div>
+                </div>
+                <div class="skills-grid">
+                    <div class="skill-box">
+                        <div class="skill-icon">⚡</div>
+                        <h3>Programming Languages</h3>
+                        <p>Python · Java · C++ · SQL</p>
+                    </div>
+                    <div class="skill-box">
+                        <div class="skill-icon">🛠️</div>
+                        <h3>Tools & Frameworks</h3>
+                        <p>TensorFlow · Scikit-learn · Google Colab · VS Code · Browserbase · Skyvern</p>
+                    </div>
+                    <div class="skill-box">
+                        <div class="skill-icon">🧠</div>
+                        <h3>AI Specializations</h3>
+                        <p>Machine Learning · Neural Networks (CNNs, LSTMs) · AI Agents · Data Visualization · Space Weather Analytics · Transformers · Diffusion Models · LLMs</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-number">05</div>
+                    <div class="section-title-group">
+                        <div class="section-subtitle">Development</div>
+                        <h2 class="section-title">Professional Training</h2>
+                    </div>
+                </div>
+                <div class="training-grid">
+                    <div class="training-card">
+                        <strong>Inspirit AI: High School AI Program</strong>
+                        Completed a summer AI program taught by Stanford/MIT alumni, focused on Python, neural networks, and TensorFlow. Collaborated with peers to develop an AI project involving data analysis and model training, along with presentation of findings.
+                    </div>
+                    <div class="training-card">
+                        <strong>Harvard CS50</strong>
+                        Introduction to Computer Science
+                    </div>
+                    <div class="training-card">
+                        <strong>Generative AI using Microsoft Technologies</strong>
+                        Comprehensive training in modern generative AI techniques and tools
+                    </div>
+                    <div class="training-card">
+                        <strong>100 Days of Code</strong>
+                        The Complete Python Pro Bootcamp
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-number">06</div>
+                    <div class="section-title-group">
+                        <div class="section-subtitle">Recognition</div>
+                        <h2 class="section-title">Honors & Awards</h2>
+                    </div>
+                </div>
+                <div class="honors-grid">
+                    <div class="honor-badge">Science Olympiad: 3rd Codebusters, 5th Astronomy, 5th Forensics, 4th UVA Invitational</div>
+                    <div class="honor-badge">FCCLA Silver Medalist, STAR Presentation</div>
+                    <div class="honor-badge">National Science Honor Society</div>
+                    <div class="honor-badge">National English Honor Society</div>
+                    <div class="honor-badge">Piano Achievement & Jazz Performance Awards</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-number">07</div>
+                    <div class="section-title-group">
+                        <div class="section-subtitle">Balance</div>
+                        <h2 class="section-title">Creative Pursuits</h2>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-description">
+                        <ul>
+                            <li>Pianist for 7+ years in classical and jazz; performed at local festivals</li>
+                            <li>Passionate writer and journaler integrating mindfulness and self-reflection</li>
+                            <li>Geography enthusiast and logic-based political debater</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
