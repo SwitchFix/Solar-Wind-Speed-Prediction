@@ -1,0 +1,74 @@
+$schema: https://azuremlschemas.azureedge.net/latest/pipelineJob.schema.json
+type: pipeline
+settings:
+  default_compute: azureml:cpu-cluster
+inputs:
+  model_path:
+    type: uri_folder
+    path: ../src/outputs
+jobs:
+  register_model:
+    type: command
+    code: ../src
+    command: >-
+      python - <<'PY'
+      import os, json, glob
+      from azure.ai.ml import MLClient
+      from azure.identity import DefaultAzureCredential
+      from azure.ai.ml.entities import Model
+      ws = os.environ.get("AZUREML_DEFAULTS_WORKSPACE_NAME")
+      rg = os.environ.get("AZUREML_DEFAULTS_RESOURCE_GROUP")
+      sub = os.environ.get("AZUREML_ARM_SUBSCRIPTION")
+      ml = MLClient(DefaultAzureCredential(), sub, rg, ws)
+      best = "outputs/best.pt"
+      if not os.path.exists(best):
+          raise SystemExit("best.pt not found. Run training first.")
+      m = Model(name="swindnet", path=best, type="custom_model")
+      ml.models.create_or_update(m)
+      print("Registered swindnet")
+      PY
+    environment:
+      image: mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu20.04
+  deploy_online:
+    type: command
+    code: ../src/serve
+    environment:
+      conda_file: conda.yml
+      image: mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu20.04
+    command: >-
+      python - <<'PY'
+      import os
+      from azure.ai.ml import MLClient
+      from azure.identity import DefaultAzureCredential
+      from azure.ai.ml.entities import ManagedOnlineEndpoint, ManagedOnlineDeployment
+      from azure.core.exceptions import ResourceNotFoundError
+      sub = os.environ.get("AZUREML_ARM_SUBSCRIPTION")
+      rg  = os.environ.get("AZUREML_DEFAULTS_RESOURCE_GROUP")
+      ws  = os.environ.get("AZUREML_DEFAULTS_WORKSPACE_NAME")
+      ml = MLClient(DefaultAzureCredential(), sub, rg, ws)
+      ep_name = "swindnet-ep"
+      # Create endpoint if not exists
+      try:
+          ml.online_endpoints.get(name=ep_name)
+          print("Endpoint exists")
+      except ResourceNotFoundError:
+          ep = ManagedOnlineEndpoint(name=ep_name)
+          ml.online_endpoints.begin_create_or_update(ep).result()
+          print("Endpoint created")
+      # Create/Update deployment
+      model = ml.models.get("swindnet", version=None)
+      dep = ManagedOnlineDeployment(
+          name="blue",
+          endpoint_name=ep_name,
+          model=model,
+          code_configuration={"code": ".", "scoring_script": "score.py"},
+          instance_type="Standard_DS3_v2",
+          instance_count=1,
+      )
+      ml.online_deployments.begin_create_or_update(dep).result()
+      # route all traffic
+      ep = ml.online_endpoints.get(name=ep_name)
+      ep.traffic = {"blue": 100}
+      ml.online_endpoints.begin_create_or_update(ep).result()
+      print("Deployed 'blue' with 100% traffic")
+      PY

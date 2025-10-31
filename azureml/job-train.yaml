@@ -1,0 +1,9 @@
+$schema: https://azuremlschemas.azureedge.net/latest/commandJob.schema.json
+code: ../src
+command: >-
+  python train.py
+environment:
+  conda_file: ../azureml/env.yaml
+  image: mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu20.04
+compute: azureml:gpu-cluster
+experiment_name: swind-multimodal
